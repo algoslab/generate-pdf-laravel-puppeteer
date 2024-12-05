@@ -2,7 +2,7 @@
 import puppeteer from 'puppeteer';
 
 
-const url = process.argv[2] ?? '';
+const htmlContent = process.argv[2] ?? '';
 
 
 (async() => {
@@ -12,7 +12,7 @@ const url = process.argv[2] ?? '';
     });
     const page = await browser.newPage();
 
-     await page.goto(url, {waitUntil: 'load'});
+     await page.setContent(htmlContent, {waitUntil: 'load'});
     //const screenshot = await page.screenshot();
     const pdf = await page.pdf();
 

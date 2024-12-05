@@ -9,3 +9,5 @@ Route::get('/', function () {
 
 
 Route::get('/test', [TestController::class, 'test'])->name('test');
+
+Route::get('/test-render', [TestController::class, 'test_render'])->name('test_render');

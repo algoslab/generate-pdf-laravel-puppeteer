@@ -15,14 +15,8 @@ class TestController extends Controller
         $process->run();
 
         $output = $process->getOutput();
-        //$path = base_path('script.js');
-        //$command = "node $path $url";
-        
-        // Use exec() to execute the command and capture the output
-       // exec($command, $output, $status);
 
         if (is_array($output)) {
-            // Log the output to see what went wrong
             $output = implode('', $output); // Merge array into string
         }
         //dd($status, $output);
@@ -31,5 +25,24 @@ class TestController extends Controller
         ->header('Content-Disposition', 'attachment; filename="generated-file.pdf"')
         ->header('Content-Length', strlen($output));
         
+    }
+
+    public function test_render(){
+        $htmlContent = view('welcome')->render();
+        $process = new Process(['node', base_path('scriptrender.js'), $htmlContent]);
+
+        $process->setTimeout(3000);
+        $process->run();
+
+        $output = $process->getOutput();
+
+        if (is_array($output)) {
+            $output = implode('', $output); // Merge array into string
+        }
+        //dd($status, $output);
+        return response($output, 200)
+        ->header('Content-Type', 'application/pdf')
+        ->header('Content-Disposition', 'attachment; filename="generated-file.pdf"')
+        ->header('Content-Length', strlen($output));
     }
 }
